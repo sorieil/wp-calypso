@@ -13,7 +13,8 @@ import {
 	partial,
 	some,
 	values,
-	identity
+	identity,
+	includes
 } from 'lodash';
 
 /**
@@ -39,6 +40,7 @@ import { setEditorMediaModalView } from 'state/ui/editor/actions';
 import { ModalViews } from 'state/ui/media-modal/constants';
 import { deleteMedia } from 'state/media/actions';
 import ImageEditor from 'blocks/image-editor';
+import VideoEditor from 'blocks/video-editor';
 import MediaModalDetail from './detail';
 
 export class EditorMediaModal extends Component {
@@ -322,7 +324,7 @@ export class EditorMediaModal extends Component {
 	}
 
 	getModalButtons() {
-		if ( ModalViews.IMAGE_EDITOR === this.props.view ) {
+		if ( includes( [ ModalViews.IMAGE_EDITOR, ModalViews.VIDEO_EDITOR ], this.props.view ) ) {
 			return;
 		}
 
@@ -363,7 +365,7 @@ export class EditorMediaModal extends Component {
 	}
 
 	shouldClose() {
-		return ( ModalViews.IMAGE_EDITOR !== this.props.view );
+		return ! includes( [ ModalViews.IMAGE_EDITOR, ModalViews.VIDEO_EDITOR ], this.props.view );
 	}
 
 	updateSettings = ( gallerySettings ) => {
@@ -396,24 +398,34 @@ export class EditorMediaModal extends Component {
 				break;
 
 			case ModalViews.IMAGE_EDITOR:
+			case ModalViews.VIDEO_EDITOR:
 				const {
 					site,
 					imageEditorProps,
-					mediaLibrarySelectedItems: items
+					mediaLibrarySelectedItems: items,
 				} = this.props;
 
 				const selectedIndex = this.getDetailSelectedIndex();
 				const media = items ? items[ selectedIndex ] : null;
 
-				content = (
-					<ImageEditor
-						siteId={ site && site.ID }
-						media={ media }
-						onDone={ this.onImageEditorDone }
-						onCancel={ this.onImageEditorCancel }
-						{ ...imageEditorProps }
-					/>
-				);
+				if ( ModalViews.IMAGE_EDITOR === this.props.view ) {
+					content = (
+						<ImageEditor
+							siteId={ site && site.ID }
+							media={ media }
+							onDone={ this.onImageEditorDone }
+							onCancel={ this.onImageEditorCancel }
+							{ ...imageEditorProps }
+						/>
+					);
+				} else {
+					content = (
+						<VideoEditor
+							media={ media }
+						/>
+					);
+				}
+
 				break;
 
 			default:

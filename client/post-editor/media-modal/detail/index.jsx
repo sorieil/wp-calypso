@@ -62,12 +62,14 @@ export const EditorMediaModalDetail = React.createClass( {
 			selectedIndex,
 			site,
 
-			onEditItem,
+			onEditImageItem,
+			onEditVideoItem,
 			onRestoreItem,
 			onReturnToList,
 		} = this.props;
 
 		const item = items[ selectedIndex ];
+		const mimePrefix = MediaUtils.getMimePrefix( item );
 
 		return (
 			<div className="editor-media-modal-detail">
@@ -84,7 +86,7 @@ export const EditorMediaModalDetail = React.createClass( {
 					onShowPreviousItem={ this.incrementIndex.bind( this, -1 ) }
 					onShowNextItem={ this.incrementIndex.bind( this, 1 ) }
 					onRestore={ onRestoreItem }
-					onEdit={ onEditItem } />
+					onEdit={ 'video' === mimePrefix ? onEditVideoItem : onEditImageItem } />
 			</div>
 		);
 	}
@@ -92,5 +94,6 @@ export const EditorMediaModalDetail = React.createClass( {
 
 export default connect( null, {
 	onReturnToList: partial( setEditorMediaModalView, ModalViews.LIST ),
-	onEditItem: partial( setEditorMediaModalView, ModalViews.IMAGE_EDITOR )
+	onEditImageItem: partial( setEditorMediaModalView, ModalViews.IMAGE_EDITOR ),
+	onEditVideoItem: partial( setEditorMediaModalView, ModalViews.VIDEO_EDITOR ),
 } )( EditorMediaModalDetail );
