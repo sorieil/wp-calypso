@@ -2,6 +2,7 @@
  * External dependencies
  */
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 import debug from 'debug';
 
 /**
@@ -89,9 +90,11 @@ class EditorMediaModalDetailPreviewVideoPress extends Component {
 	}
 
 	render() {
+		const classes = classNames( this.props.className, 'is-video' );
+
 		return (
 			<div
-				className="editor-media-modal-detail__preview is-video"
+				className={ classes }
 				ref={ this.setVideoInstance }>
 			</div>
 		);
