@@ -14,12 +14,14 @@ import UploadButton from './video-editor-upload-button';
 
 class VideoEditorButtons extends Component {
 	static propTypes = {
+		isVideoLoaded: PropTypes.bool,
 		onCancel: PropTypes.func,
 		onSelectFrame: PropTypes.func,
 		onUploadImage: PropTypes.func,
 	};
 
 	static defaultProps = {
+		isVideoLoaded: false,
 		onCancel: noop,
 		onSelectFrame: noop,
 		onUploadImage: noop,
@@ -27,6 +29,7 @@ class VideoEditorButtons extends Component {
 
 	render() {
 		const {
+			isVideoLoaded,
 			onCancel,
 			onSelectFrame,
 			onUploadImage,
@@ -38,8 +41,7 @@ class VideoEditorButtons extends Component {
 				{ onCancel &&
 					<Button
 						className="video-editor__buttons-button"
-						onClick={ onCancel }
-					>
+						onClick={ onCancel }>
 						{ translate( 'Cancel' ) }
 					</Button>
 				}
@@ -50,9 +52,9 @@ class VideoEditorButtons extends Component {
 				</UploadButton>
 				<Button
 					className="video-editor__buttons-button"
-					primary
+					disabled={ ! isVideoLoaded }
 					onClick={ onSelectFrame }
-				>
+					primary>
 					{ translate( 'Select Frame' ) }
 				</Button>
 			</div>

@@ -20,6 +20,7 @@ import {
 } from 'state/ui/editor/video-editor/actions';
 import {
 	isVideoEditorPosterUpdated,
+	isVideoEditorVideoLoaded,
 	videoEditorHasPosterUpdateError,
 	videoEditorHasScriptLoadError,
 } from 'state/ui/editor/video-editor/selectors';
@@ -35,6 +36,7 @@ class VideoEditor extends Component {
 		hasPosterUpdateError: PropTypes.bool,
 		hasScriptLoadError: PropTypes.bool,
 		isPosterUpdated: PropTypes.bool,
+		isVideoLoaded: PropTypes.bool,
 	};
 
 	static defaultProps = {
@@ -44,6 +46,7 @@ class VideoEditor extends Component {
 
 	state = {
 		pauseVideo: false,
+		videoError: false,
 	};
 
 	componentDidMount() {
@@ -61,7 +64,15 @@ class VideoEditor extends Component {
 	}
 
 	handleSelectFrame = () => {
+		const { isVideoLoaded } = this.props;
+
 		this.props.resetPosterState();
+
+		if ( ! isVideoLoaded ) {
+			this.setState( { videoError: true } );
+			return;
+		}
+
 		this.setState( { pauseVideo: true } );
 	}
 
@@ -100,12 +111,14 @@ class VideoEditor extends Component {
 			className,
 			hasPosterUpdateError,
 			hasScriptLoadError,
+			isVideoLoaded,
 			media,
 			onCancel,
 			translate,
 		} = this.props;
 		const {
 			pauseVideo,
+			videoError,
 		} = this.state;
 
 		const classes = classNames(
@@ -115,7 +128,7 @@ class VideoEditor extends Component {
 
 		return (
 			<div className={ classes }>
-				{ ( hasScriptLoadError || hasPosterUpdateError ) && this.renderError() }
+				{ ( hasScriptLoadError || hasPosterUpdateError || videoError ) && this.renderError() }
 
 				<figure>
 					<div className="video-editor__content">
@@ -131,6 +144,7 @@ class VideoEditor extends Component {
 							{ translate( 'Select a frame to use as the thumbnail image or upload your own.' ) }
 						</span>
 						<VideoEditorButtons
+							isVideoLoaded={ isVideoLoaded }
 							onCancel={ onCancel }
 							onSelectFrame={ this.handleSelectFrame }
 							onUploadImage={ this.handleUploadImage }
@@ -148,6 +162,7 @@ export default connect(
 			hasPosterUpdateError: videoEditorHasPosterUpdateError( state ),
 			hasScriptLoadError: videoEditorHasScriptLoadError( state ),
 			isPosterUpdated: isVideoEditorPosterUpdated( state ),
+			isVideoLoaded: isVideoEditorVideoLoaded( state ),
 		};
 	},
 	{
