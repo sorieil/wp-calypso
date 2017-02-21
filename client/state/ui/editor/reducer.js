@@ -8,6 +8,7 @@ import { combineReducers } from 'redux';
  */
 import { EDITOR_SHOW_DRAFTS_TOGGLE, EDITOR_START, POST_SAVE_SUCCESS } from 'state/action-types';
 import imageEditor from './image-editor/reducer';
+import videoEditor from './video-editor/reducer';
 import lastDraft from './last-draft/reducer';
 import contactForm from './contact-form/reducer';
 
@@ -51,6 +52,7 @@ export default combineReducers( {
 	postId,
 	showDrafts,
 	imageEditor,
+	videoEditor,
 	lastDraft,
 	contactForm
 } );
