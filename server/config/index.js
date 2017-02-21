@@ -11,7 +11,7 @@ const { serverData: data, clientData } = parser( configPath, {
 	disabledFeatures: process.env.DISABLE_FEATURES
 } );
 
-const ssrConfig = `var configData = ${ JSON.stringify( clientData ) };'`;
+const ssrConfig = `var configData = ${ JSON.stringify( clientData ) };`;
 
 module.exports = createConfig( data );
 module.exports.ssrConfig = ssrConfig;
