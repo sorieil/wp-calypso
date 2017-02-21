@@ -18,6 +18,7 @@ class VideoEditorButtons extends Component {
 		onCancel: PropTypes.func,
 		onSelectFrame: PropTypes.func,
 		onUploadImage: PropTypes.func,
+		onUploadImageClick: PropTypes.func,
 	};
 
 	static defaultProps = {
@@ -25,6 +26,7 @@ class VideoEditorButtons extends Component {
 		onCancel: noop,
 		onSelectFrame: noop,
 		onUploadImage: noop,
+		onUploadImageClick: noop,
 	};
 
 	render() {
@@ -33,6 +35,7 @@ class VideoEditorButtons extends Component {
 			onCancel,
 			onSelectFrame,
 			onUploadImage,
+			onUploadImageClick,
 			translate,
 		} = this.props;
 
@@ -47,6 +50,7 @@ class VideoEditorButtons extends Component {
 				}
 				<UploadButton
 					className="button video-editor__buttons-button"
+					onClick={ onUploadImageClick }
 					onUploadImage={ onUploadImage }>
 					{ translate( 'Upload Image' ) }
 				</UploadButton>
