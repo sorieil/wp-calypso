@@ -117,6 +117,7 @@ SitesList.prototype.sync = function( data ) {
 			debug( 'SitesList changed via update' );
 			this.emit( 'change' );
 		}
+		this.emit( 'fetch' );
 	}
 	store.set( 'SitesList', sites );
 };

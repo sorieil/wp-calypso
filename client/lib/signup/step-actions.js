@@ -143,7 +143,7 @@ function fetchSitesUntilSiteAppears( siteSlug, callback ) {
 		return;
 	}
 
-	sites.once( 'change', function() {
+	sites.once( 'fetch', function() {
 		fetchSitesUntilSiteAppears( siteSlug, callback );
 	} );
 
