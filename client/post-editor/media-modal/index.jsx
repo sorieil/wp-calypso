@@ -237,6 +237,8 @@ export class EditorMediaModal extends Component {
 		this.props.setView( ModalViews.DETAIL );
 	};
 
+	handleUpdatePoster = () => this.props.setView( ModalViews.DETAIL );
+
 	handleCancel() {
 		const { mediaLibrarySelectedItems } = this.props;
 		const item = mediaLibrarySelectedItems[ this.getDetailSelectedIndex() ];
@@ -427,6 +429,7 @@ export class EditorMediaModal extends Component {
 						<VideoEditor
 							media={ media }
 							onCancel={ this.handleCancel }
+							onUpdatePoster={ this.handleUpdatePoster }
 						/>
 					);
 				}
