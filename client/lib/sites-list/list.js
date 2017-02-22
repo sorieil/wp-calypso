@@ -93,6 +93,7 @@ SitesList.prototype.fetch = function() {
 
 		this.sync( data );
 		this.fetching = false;
+		this.emit( 'fetch' );
 	}.bind( this ) );
 };
 
@@ -117,7 +118,6 @@ SitesList.prototype.sync = function( data ) {
 			debug( 'SitesList changed via update' );
 			this.emit( 'change' );
 		}
-		this.emit( 'fetch' );
 	}
 	store.set( 'SitesList', sites );
 };
