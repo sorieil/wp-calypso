@@ -4,7 +4,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { find, isEmpty, some } from 'lodash';
+import { find, get, isEmpty, some } from 'lodash';
 
 /**
  * Internal dependencies
@@ -67,6 +67,11 @@ const PluginsMain = React.createClass( {
 
 		if ( props && props.search ) {
 			plugins = plugins.filter( this.matchSearchTerms.bind( this, props.search ) );
+		}
+
+		// Don't show Jetpack on Automated Transfer sites.
+		if ( get( props, 'selectedSite.options.is_automated_transfer', false ) ) {
+			plugins = plugins.filter( ( { slug } ) => 'jetpack' !== slug );
 		}
 
 		return this.addWporgDataToPlugins( plugins );
